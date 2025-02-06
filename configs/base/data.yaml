@@ -1,0 +1,14 @@
+data:
+  train_path: data/raw/train.csv
+  test_path: data/raw/test.csv
+  predict_path: data/predict/new_samples.csv
+  features:
+    - feature1
+    - feature2
+    - feature3
+    - feature4
+  target: target
+
+paths:
+  model: models/trained/model.joblib
+  predictions: models/deployed/predictions.csv
