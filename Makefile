@@ -36,7 +36,7 @@ train-prod:
 	$(MAKE) train PIPE_ENV=prod
 
 mlflow:
-	uv run mlflow ui --backend-store-uri $(shell python -c "from ml_pipeline.config.config_parser import Config; c=Config('$(PIPE_ENV)'); print(c.mlflow_config['tracking_uri'])")
+	uv run mlflow ui -p 5999
 
 test:
 	uv run pytest tests/
