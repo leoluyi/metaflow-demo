@@ -1,5 +1,0 @@
-train:
-  batch_size: 32
-  epochs: 10
-  valid_size: 0.2
-  random_seed: 42

@@ -1,22 +1,26 @@
-.PHONY: setup data train test clean
+# Makefile
+.PHONY: setup data train predict test clean mlflow
 
 setup:
 	uv venv
 	uv pip install -e ".[dev]"
+	mkdir -p data/{raw,predict} models mlruns
 
 data:
-	uv pip install pandas scikit-learn numpy
 	uv run python scripts/generate_data.py
 
-train: data
-	uv run python -m scripts.train
+train:
+	uv run python -m flows.train_flow run --experiment="experiment-$(shell date +%Y%m%d)"
 
-predict: train
-	uv run python -m scripts.predict
+predict:
+	uv run python -m flows.predict_flow run
+
+mlflow:
+	uv run mlflow ui --backend-store-uri mlruns
 
 test:
 	uv run pytest tests/
 
 clean:
-	rm -rf logs/* models/* mlruns/* data/raw/* data/predict/*
+	rm -rf data/{raw,predict}/* models/* .metaflow/ mlruns/
 	rm -rf .venv

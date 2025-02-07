@@ -11,6 +11,8 @@ dependencies = [
     "scikit-learn>=1.0.0",
     "pyyaml>=6.0",
     "joblib>=1.1.0",
+    "metaflow>=2.10.0",
+    "mlflow>=2.10.0",
 ]
 
 [project.optional-dependencies]

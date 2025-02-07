@@ -11,7 +11,7 @@ def predict(input_path: str, model_path: str, output_path: str):
     logger = setup_logger("predict", "logs/predict.log")
 
     # Load data and model
-    data_config = load_config("configs/base/data.yaml")
+    data_config = load_config("configs/base/data.ini")
     df = pd.read_csv(input_path)
     model = joblib.load(model_path)
 

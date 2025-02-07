@@ -10,8 +10,8 @@ from src.utils.metrics import calculate_classification_metrics, log_metrics
 
 
 def train():
-    data_config = load_config("configs/base/data.yaml")
-    model_config = load_config("configs/base/model.yaml")
+    data_config = load_config("configs/base/data.ini")
+    model_config = load_config("configs/base/model.ini")
 
     logger = setup_logger("train", "logs/train.log")
 
