@@ -1,4 +1,3 @@
-# src/ml_pipeline/models/components/feature_processor.py
 from typing import Union
 
 import numpy as np

@@ -4,10 +4,12 @@ LOG_DIR := logs
 DATE := $(shell date +%Y%m%d_%H%M%S)
 ENV ?= dev
 export PIPE_ENV = $(ENV)
+export PYTHONPATH := $(PWD):$(PYTHONPATH)
 
 setup:
 	uv venv
-	uv pip install -e ".[dev]"
+	# uv pip install -e ".[dev]"
+	uv pip install --requirements pyproject.toml
 	mkdir -p data/training data/prediction
 	mkdir -p models/{dev,staging,prod}
 	mkdir -p logs
@@ -16,13 +18,13 @@ data:
 	uv run python scripts/generate_data.py
 
 train:
-	uv run python -m src.ml_pipeline.flows.training.train_flow run --env $(PIPE_ENV) | tee -a $(LOG_DIR)/train_flow_$(DATE).log
+	uv run python -m ml_pipeline.flows.training.train_flow run --env $(PIPE_ENV) | tee -a $(LOG_DIR)/train_flow_$(DATE).log
 
 predict:
-	uv run python -m src.ml_pipeline.flows.prediction.predict_flow run --env $(PIPE_ENV) | tee -a $(LOG_DIR)/predict_flow_$(DATE).log
+	uv run python -m ml_pipeline.flows.prediction.predict_flow run --env $(PIPE_ENV) | tee -a $(LOG_DIR)/predict_flow_$(DATE).log
 
 evaluate:
-	uv run python -m src.ml_pipeline.flows.evaluation.eval_flow run --env $(PIPE_ENV) | tee -a $(LOG_DIR)/evaluate_flow_$(DATE).log
+	uv run python -m ml_pipeline.flows.evaluation.eval_flow run --env $(PIPE_ENV) | tee -a $(LOG_DIR)/evaluate_flow_$(DATE).log
 
 train-all: train-dev train-staging train-prod
 

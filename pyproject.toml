@@ -1,5 +1,5 @@
 [project]
-name = "metaflow_demo"
+name = "ml_pipeline"
 version = "0.1.0"
 description = "ML Pipeline with Metaflow and MLflow"
 readme = "README.md"
