@@ -44,8 +44,9 @@ test:
 	uv run pytest tests/
 
 clean:
-	rm -rf .venv
+	rm -rf data/* models/* logs/* mlruns/*
 
 clean-all:
-	rm -rf data/* models/*
-	rm -rf .venv
+	rm -rf data/* models/* logs/* mlruns/*
+	rm -rf .venv/
+	rm uv.lock
