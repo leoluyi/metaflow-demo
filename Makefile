@@ -5,6 +5,7 @@ DATE := $(shell date +%Y%m%d_%H%M%S)
 ENV ?= dev
 export PIPE_ENV = $(ENV)
 export PYTHONPATH := $(PWD):$(PYTHONPATH)
+export USERNAME ?= None
 
 setup:
 	uv venv
