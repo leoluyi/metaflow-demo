@@ -45,9 +45,9 @@ test:
 	uv run pytest tests/
 
 clean:
-	rm -rf data/* models/* logs/* mlruns/*
+	rm -rf data/* models/* logs/* mlruns/* .metaflow/
 
 clean-all:
-	rm -rf data/* models/* logs/* mlruns/*
+	rm -rf data/* models/* logs/* mlruns/* .metaflow/
 	rm -rf .venv/
 	rm -f uv.lock requirements.lock

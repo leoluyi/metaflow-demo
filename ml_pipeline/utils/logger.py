@@ -50,19 +50,19 @@ class LogFileHandler(logging.handlers.TimedRotatingFileHandler):
         self.setFormatter(LOG_FORMATTER)
 
 
-class LessThanFilter(logging.Filter):
+class LessEqualThanFilter(logging.Filter):
     """
     Log higher level to stderr.
     https://stackoverflow.com/a/31459386/3744499
     """
 
     def __init__(self, exclusive_maximum, name=""):
-        super(LessThanFilter, self).__init__(name)
+        super(LessEqualThanFilter, self).__init__(name)
         self.max_level = exclusive_maximum
 
     def filter(self, record):
         # non-zero return means we log this message
-        return 1 if record.levelno < self.max_level else 0
+        return 1 if record.levelno <= self.max_level else 0
 
 
 class ConsoleHandler(logging.StreamHandler):
@@ -72,18 +72,20 @@ class ConsoleHandler(logging.StreamHandler):
 
 
 def register_console_file_handler(logger, log_file, level=logging.DEBUG):
+    # set the root logger level.
     logger.setLevel(level)  # better to have too much log than not enough
 
-    logging_handler_out = ConsoleHandler(sys.stdout)
-    logging_handler_out.setLevel(logging.DEBUG)
-    logging_handler_out.addFilter(LessThanFilter(logging.WARNING))
+    logging_handler_stdout = ConsoleHandler(sys.stdout)
+    logging_handler_stdout.setLevel(logging.DEBUG)
+    # filter out everything that is above INFO level (WARN, ERROR, ...)
+    logging_handler_stdout.addFilter(LessEqualThanFilter(logging.INFO))
 
-    logging_handler_err = ConsoleHandler(sys.stderr)
-    logging_handler_err.setLevel(logging.WARNING)
-    logger.addHandler(logging_handler_err)
+    logging_handler_stderr = ConsoleHandler(sys.stderr)
+    logging_handler_stderr.setLevel(logging.WARNING)
+    logger.addHandler(logging_handler_stderr)
 
-    logger.addHandler(logging_handler_out)
-    logger.addHandler(logging_handler_err)
+    logger.addHandler(logging_handler_stdout)
+    logger.addHandler(logging_handler_stderr)
     logger.addHandler(LogFileHandler(log_file))
 
     print(f"log_file is registered to: {log_file}")

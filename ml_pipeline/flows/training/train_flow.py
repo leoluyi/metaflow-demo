@@ -1,3 +1,5 @@
+import logging
+
 import mlflow
 import pandas as pd
 from joblib import dump
@@ -8,9 +10,20 @@ from sklearn.model_selection import train_test_split
 from ml_pipeline.models.architectures.random_forest import RFModel
 from ml_pipeline.models.components.feature_processor import FeatureProcessor
 
+logger = logging.getLogger(__name__ or "ml_pipeline")
+
+# print(f"__package__: {__package__}")
+# print(f"__name__: {__name__}")
+# print(f"__file__: {__file__}")
+
 
 class TrainingFlow(FlowSpec):
     env = Parameter("env", help="Environment", default="dev")
+    experiment_name = Parameter(
+        "experiment_name",
+        help="MLflow experiment name",
+        default="default_experiment",
+    )
 
     @step
     def start(self):
@@ -38,6 +51,22 @@ class TrainingFlow(FlowSpec):
 
     @step
     def train_model(self):
+        # Set up MLflow tracking
+        mlflow.set_tracking_uri(self.config.paths["mlflow.tracking_uri"])
+
+        # Create or get experiment
+        try:
+            experiment = mlflow.get_experiment_by_name(self.experiment_name)
+            if experiment is None:
+                experiment_id = mlflow.create_experiment(self.experiment_name)
+            else:
+                experiment_id = experiment.experiment_id
+        except Exception as e:
+            logger.warn(f"Error setting up MLflow experiment: {e}")
+            experiment_id = mlflow.create_experiment(self.experiment_name)
+
+        mlflow.set_experiment(experiment_id)
+
         with mlflow.start_run():
             model = RFModel(n_estimators=100, random_state=42)
             model.train(self.X_train, self.y_train)
