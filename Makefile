@@ -19,13 +19,10 @@ data:
 	uv run python scripts/generate_data.py
 
 train:
-	uv run python -m ml_pipeline.flows.training.train_flow run --env $(PIPE_ENV) | tee -a $(LOG_DIR)/train_flow_$(DATE).log
+	uv run python -m ml_pipeline.flows.train_flow run --env $(PIPE_ENV) | tee -a $(LOG_DIR)/train_flow_$(DATE).log
 
 predict:
-	uv run python -m ml_pipeline.flows.prediction.predict_flow run --env $(PIPE_ENV) | tee -a $(LOG_DIR)/predict_flow_$(DATE).log
-
-evaluate:
-	uv run python -m ml_pipeline.flows.evaluation.eval_flow run --env $(PIPE_ENV) | tee -a $(LOG_DIR)/evaluate_flow_$(DATE).log
+	uv run python -m ml_pipeline.flows.predict_flow run --env $(PIPE_ENV) | tee -a $(LOG_DIR)/predict_flow_$(DATE).log
 
 train-all: train-dev train-staging train-prod
 

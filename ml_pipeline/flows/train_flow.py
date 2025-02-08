@@ -7,14 +7,16 @@ from metaflow import FlowSpec, Parameter, step
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
 
-from ml_pipeline.models.architectures.random_forest import RFModel
-from ml_pipeline.models.components.feature_processor import FeatureProcessor
-
-logger = logging.getLogger(__name__ or "ml_pipeline")
-
 # print(f"__package__: {__package__}")
 # print(f"__name__: {__name__}")
 # print(f"__file__: {__file__}")
+
+__package__ = __package__ or "ml_pipeline.flows"
+
+from ..models.architectures.random_forest import RFModel
+from ..models.components.feature_processor import FeatureProcessor
+
+logger = logging.getLogger(__name__ or "ml_pipeline")
 
 
 class TrainingFlow(FlowSpec):
@@ -27,7 +29,7 @@ class TrainingFlow(FlowSpec):
 
     @step
     def start(self):
-        from ml_pipeline.config.config_parser import Config
+        from ..config.config_parser import Config
 
         self.config = Config(self.env)
         self.next(self.prepare_data)
