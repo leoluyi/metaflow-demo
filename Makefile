@@ -9,7 +9,8 @@ export PYTHONPATH := $(PWD):$(PYTHONPATH)
 setup:
 	uv venv
 	# uv pip install -e ".[dev]"
-	uv pip install --requirements pyproject.toml
+	uv pip compile pyproject.toml -o requirements.lock
+	uv pip sync requirements.lock
 	mkdir -p data/training data/prediction
 	mkdir -p models/{dev,staging,prod}
 	mkdir -p logs
@@ -49,4 +50,4 @@ clean:
 clean-all:
 	rm -rf data/* models/* logs/* mlruns/*
 	rm -rf .venv/
-	rm uv.lock
+	rm -f uv.lock requirements.lock
