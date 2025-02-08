@@ -46,7 +46,7 @@ make predict ENV=[dev|staging|prod]
 
 ```
 ml_pipeline/
-├── src/ml_pipeline/             # Main package
+├── ml_pipeline.ml_pipeline/             # Main package
 │   ├── flows/                   # Metaflow pipelines
 │   │   ├── training/           # Training pipeline
 │   │   └── prediction/         # Prediction pipeline

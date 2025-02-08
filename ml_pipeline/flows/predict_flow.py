@@ -2,13 +2,19 @@ import pandas as pd
 from joblib import load
 from metaflow import FlowSpec, Parameter, step
 
+# print(f"__package__: {__package__}")
+# print(f"__name__: {__name__}")
+# print(f"__file__: {__file__}")
+
+__package__ = __package__ or "ml_pipeline.flows"
+
 
 class PredictionFlow(FlowSpec):
     env = Parameter("env", help="Environment", default="dev")
 
     @step
     def start(self):
-        from ml_pipeline.config.config_parser import Config
+        from ..config.config_parser import Config
 
         self.config = Config(self.env)
         self.next(self.load_data)
