@@ -12,6 +12,7 @@ Machine learning pipeline using Metaflow and MLflow.
 
 - Environment variable for DEV, STAGING, PROD stages
 - CLI Params
+- Config Files
 
 **Data:**
 
@@ -46,7 +47,7 @@ make predict ENV=[dev|staging|prod]
 
 ```
 ml_pipeline/
-├── ml_pipeline.ml_pipeline/             # Main package
+├── ml_pipeline/             # Main package
 │   ├── flows/                   # Metaflow pipelines
 │   │   ├── training/           # Training pipeline
 │   │   └── prediction/         # Prediction pipeline
